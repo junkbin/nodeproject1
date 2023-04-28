@@ -1,15 +1,14 @@
-import { project, price, ref, hello } from "./app.config.js";
-import { sum } from "./calculator.js";
+import axios from "axios";
 
-function main() {
-  console.log(project);
-  console.log(price);
-  console.log(ref);
-
-  hello();
-
-  let output = sum(1, 1);
-  console.log(output);
+// Put Everything in Main program
+async function main() {
+  try {
+    let url = "https://jsonplaceholder.typicode.com/users";
+    let response = await axios.get(url);
+    console.log(response.data);
+  } catch (err) {
+    console.error(err.message);
+  }
 }
 
 main();
