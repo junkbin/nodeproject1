@@ -1,13 +1,19 @@
 import express from "express";
 import { saveOneDocument } from "./appmongo/insert.util.js";
+import { readDocuments } from "./appmongo/read.util.js";
 
 const app = express();
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.get("/", (req, res) => {
-  let message = { success: true };
-  res.json(message);
+app.get("/", async (req, res) => {
+  let list = await readDocuments();
+  res.json(list);
+});
+
+app.get("/search", async (req, res) => {
+  let list = await readDocuments();
+  res.json(list);
 });
 
 app.get("/insert", async (req, res) => {
