@@ -1,57 +1,18 @@
 import express from "express";
+import { saveOneDocument } from "./appmongo/insert.util.js";
 const app = express();
-
-import { MongoClient } from "mongodb";
 
 app.get("/", (req, res) => {
   let message = { success: true };
   res.json(message);
 });
 
-app.get("/insert1", async (req, res) => {
-  const uri = "mongodb://localhost:27017";
+app.get("/insert", async (req, res) => {
+  let username = req.query.username || "default";
+  let email = req.query.email || "default@gmail.com";
 
-  const client = new MongoClient(uri);
-  const usersColl = client.db("practice").collection("users");
-
-  let newDocument = { username: "delhi" };
-  let resultDoc = await usersColl.insertOne(newDocument);
-  console.log(resultDoc);
-  client.close();
-
-  let message = { success: true };
-  res.json(message);
-});
-
-app.get("/insert2", async (req, res) => {
-  const uri = "mongodb://localhost:27017";
-
-  const client = new MongoClient(uri);
-  const usersColl = client.db("practice").collection("users");
-
-  let username = req.query.username || "delhi";
-
-  let newDocument = { username: username };
-  let resultDoc = await usersColl.insertOne(newDocument);
-  console.log(resultDoc);
-  client.close();
-
-  let message = { success: true };
-  res.json(message);
-});
-
-app.get("/insert3", async (req, res) => {
-  const uri = "mongodb://localhost:27017";
-
-  const client = new MongoClient(uri);
-  const usersColl = client.db("practice").collection("users");
-
-  let username = req.query.username || "delhi";
-
-  let newDocument = { username: username };
-  let resultDoc = await usersColl.insertOne(newDocument);
-  console.log(resultDoc);
-  client.close();
+  let newDocument = { username, email };
+  await saveOneDocument(newDocument);
 
   let message = { success: true };
   res.json(message);
